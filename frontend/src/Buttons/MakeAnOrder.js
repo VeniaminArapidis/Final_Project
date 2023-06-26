@@ -1,10 +1,13 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function MakeAnOrder() {
     
     let navigate = useNavigate();
+    toast.configure();
 
     const[order, setOrder]= useState({
         email: "",
@@ -21,8 +24,14 @@ export default function MakeAnOrder() {
 
     const onSubmit = async (e) =>{
         e.preventDefault();
-        await axios.post("http://localhost:8080/makeAnOrder",order)
-        navigate("/")
+        try{
+            await axios.post("http://localhost:8080/makeAnOrder",order)
+            navigate("/")
+            toast.success("Order created successfully.")
+        }
+        catch(e){
+            toast.error(e.response.data.error);
+        }
     }
 
 

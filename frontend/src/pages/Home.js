@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home() {
 
     const [people,setPeople] = useState([])
-
+    toast.configure();
     const {personID} = useParams();
 
     useEffect(()=>{
@@ -13,13 +15,24 @@ export default function Home() {
     },[]);
 
     const loadPeople = async() =>{
-        const result =await axios.get("http://localhost:8080/peopleAll/")
-        setPeople(result.data);
+        try{
+            const result =await axios.get("http://localhost:8080/peopleAll/")
+            setPeople(result.data);
+        }
+        catch(e){
+            toast.error(e.message)
+        }
     };
 
     const deletePerson = async (personID) =>{
-        await axios.delete(`http://localhost:8080/peopleDel/${personID}`)
-        loadPeople()
+        try{
+            await axios.delete(`http://localhost:8080/peopleDel/${personID}`)
+            loadPeople()
+            toast.success("The customer deleted successfully.")
+        }
+        catch(e){
+            toast.error(e.message)
+        }
     }
 
 
@@ -34,14 +47,25 @@ export default function Home() {
     },[]);
     
     const loadItem = async() =>{
-        const itemResult = await axios.get("http://localhost:8080/items/")
-        setItem(itemResult.data);
+        try{
+            const itemResult = await axios.get("http://localhost:8080/items/")
+            setItem(itemResult.data);
+        }
+        catch(e) {
+            toast.error(e.message)       
+        }
     }
 
 
     const deleteItem = async (itemId) =>{
-        await axios.delete(`http://localhost:8080/items/${itemId}`)
-        loadItem()
+        try{
+            await axios.delete(`http://localhost:8080/items/${itemId}`)
+            loadItem()
+            toast.success("Ited deleted successfully.")
+        }
+        catch(e){
+            toast.error(e.message);
+        }
     }
 
 

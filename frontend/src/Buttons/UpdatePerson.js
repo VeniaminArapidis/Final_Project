@@ -1,10 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function UpdatePerson() {
 
           let navigate = useNavigate();
+          toast.configure();
 
           const {personID}=useParams();
 
@@ -28,13 +31,24 @@ export default function UpdatePerson() {
 
       const onSubmit= async (e)=>{
           e.preventDefault();
-          await axios.put(`http://localhost:8080/people/${personID}`,people)
-          navigate("/");
+          try{
+              await axios.put(`http://localhost:8080/people/${personID}`,people)
+              navigate("/");
+              toast.success("Customer updated successfully.")
+          }
+          catch(e){
+                toast.error(e.message);
+          }
       };
 
       const loadPeople = async () => {
-        const result = await axios.get(`http://localhost:8080/people/${personID}`)
-        setPeople(result.data)
+        try{
+            const result = await axios.get(`http://localhost:8080/people/${personID}`)
+            setPeople(result.data)
+        }
+        catch(e){
+          toast.error(e.message);
+        }
       }
 
 

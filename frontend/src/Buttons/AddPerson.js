@@ -1,9 +1,13 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function AddPerson() {
-
+          
+          toast.configure();
           let navigate = useNavigate();
 
       const [people,setPeople]=useState({
@@ -22,8 +26,14 @@ export default function AddPerson() {
 
       const onSubmit= async (e)=>{
           e.preventDefault();
-          await axios.post("http://localhost:8080/people",people)
-          navigate("/");
+          try{
+              await axios.post("http://localhost:8080/people",people)
+              navigate("/");
+              toast.success("Customer created successfully.")
+          }
+          catch(e){
+              toast.error(e.response.data.error);
+          }
       };
 
 

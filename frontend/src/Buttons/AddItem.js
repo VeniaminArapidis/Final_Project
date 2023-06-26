@@ -1,9 +1,11 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddItem() {
-
+            toast.configure();
             let navigate = useNavigate();
 
         const[item,setItem]=useState({
@@ -17,11 +19,17 @@ export default function AddItem() {
             setItem({...item,[e.target.name]: e.target.value});
         
         };
-
+        
         const onSubmit = async (e)=>{
             e.preventDefault();
+            try{
             await axios.post("http://localhost:8080/item",item)
-             navigate("/");  
+             navigate("/"); 
+             toast.success("Item created successfully.")
+            }
+            catch(e){
+                toast.error(e.response.data.error);
+            } 
         };
 
 

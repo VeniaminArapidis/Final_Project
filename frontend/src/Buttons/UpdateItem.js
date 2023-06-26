@@ -1,10 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function UpdateItem() {
-
+    
             let navigate = useNavigate();
+            toast.configure();
             
             const {itemId} = useParams();
 
@@ -26,13 +29,24 @@ export default function UpdateItem() {
 
         const onSubmit = async (e)=>{
             e.preventDefault();
-            await axios.put(`http://localhost:8080/item/${itemId}`,item)
-            navigate("/");
+            try{
+                await axios.put(`http://localhost:8080/item/${itemId}`,item)
+                navigate("/");
+                toast.success("Item updated successfully.")
+            }
+            catch(e){
+                toast.error(e.message);
+            }
         };
 
         const loadItem = async () =>{
-            const result = await axios.get(`http://localhost:8080/item/${itemId}`)
-            setItem(result.data)
+            try{
+                const result = await axios.get(`http://localhost:8080/item/${itemId}`)
+                setItem(result.data)
+            }
+            catch(e){
+                toast.error(e.message);
+            }
         }
 
 

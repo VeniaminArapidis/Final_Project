@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Orders() {
 
 
     //Order
-
+    toast.configure();
     const [orders, setOrder] = useState([])
 
 
@@ -16,14 +18,24 @@ export default function Orders() {
     },[]);
 
     const loadOrders =async () =>{
-
+        try{    
         const result =await axios.get("http://localhost:8080/orders");
         setOrder(result.data);
+        }
+        catch(e){
+            toast.error(e.message);
+        }
     };
 
     const deleteOrder = async (orderId) =>{
-        await axios.delete(`http://localhost:8080/orderDel/${orderId}`)
-        loadOrders()
+        try{
+            await axios.delete(`http://localhost:8080/orderDel/${orderId}`)
+            loadOrders()
+            toast.success("Order and Details deleted successfully.")
+        }
+        catch(e){
+            toast.error(e.message);
+        }
     }
 
     //Order Details
@@ -39,9 +51,13 @@ export default function Orders() {
 
 
     const loadOrderDetails = async () =>{
-
-        const result = await axios.get("http://localhost:8080/orderDetails")
-        setOrderDetails(result.data);
+        try{
+            const result = await axios.get("http://localhost:8080/orderDetails")
+            setOrderDetails(result.data);
+        }
+        catch(e){
+            toast.error(e.message);
+        }
     }
 
 
