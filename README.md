@@ -50,12 +50,11 @@ After you clone the project, you must run it in a docker environment.
 Each part of the project is designed to run in a single container.
 Firstly you have to add IP at MYSQL_HOST variable(backend -> src -> main -> java -> com -> techpro -> project -> configuration -> "DockerSecrettsProcessor.java").
 Check if the necessary ports are forwarded.  
-Then run in the backend folder the command "mvn clean install".
-Then in the root folder of the application, you type the command "docker compose up -d --build".
+Then run the script commandScript.sh with the command "./commandScript.sh". 
 In case you want to stop the project containers you type the command "docker compose stop"
 Be careful don't type the command "docker compose down" except if you want to recreate the containers.
 To start them again you should type "docker compose start".
-Sensitive info: In case the backend fails to connect to the db in your first installation. Try to execute one more time. (mvn clean install) and (docker compose up -d --build).
+Sensitive info: In case the backend fails to connect to the db in your first installation. Try to run again the script.
 
 To visit the UI you need to type the endpoint: localhost/3000.
 
