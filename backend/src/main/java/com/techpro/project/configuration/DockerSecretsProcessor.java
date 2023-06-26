@@ -12,7 +12,7 @@ public class DockerSecretsProcessor implements EnvironmentPostProcessor {
 
 	@Override
 	public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-		System.setProperty("MYSQL_HOST", "");
+		System.setProperty("MYSQL_HOST", "(enter your IP)");
 		System.setProperty("MYSQL_USERNAME", "root");
 		System.setProperty("MYSQL_PASSWORD", "root");
 	}
